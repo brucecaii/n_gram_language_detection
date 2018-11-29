@@ -89,7 +89,7 @@ class Predict:
         return model_list
 
     def __save_trace__(self, sentence, idx, print_log, detected):
-        with open('output/out' + str(idx + 1) + '.txt', 'w+', encoding='utf-8', errors='ignore') as st_log:
+        with open('output/out' + str(idx + 1) + '.txt', 'a+', encoding='utf-8', errors='ignore') as st_log:
             st_log.write(sentence + '\n\n')
             st_log.write(model_type[self.n].upper() + ' MODEL:\n')
             for j in range(len(print_log[0])):
@@ -100,7 +100,7 @@ class Predict:
                             st_log.write(s[0] + '\n')
             st_log.write('According to the ' + model_type[self.n] + ' model, the sentence is in ' + detected)
             print(sentence + ' [' + detected + ']')
-            st_log.write('\n---------------- ')
+            st_log.write('\n----------------\n')
 
 
 
