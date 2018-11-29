@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from preprocessor import Preprocessor
 import os
+import pickle
 
 
 class Train:
@@ -31,6 +32,8 @@ class Train:
                 # for every term in the corpus
                 for term in corpus.read().split():
                     # for every character in the term
+                    if self.n > 1:
+                        term = '#' + term + '#'
                     for i in range(len(term) - self.n + 1):
                         # create term and set frequency, or increase by 1 if it exists
                         self.frequency[term[i:(i + self.n)]] = self.frequency.get(term[i:(i + self.n)], 0) + 1
@@ -53,6 +56,9 @@ class Train:
             prefix = self.n + 'gram'
         with open('output/' + prefix + self.lang.upper() + '.txt', 'w+', encoding='utf-8', errors='ignore') as model:
             for gram in sorted(self.probability):
-                model.write('P(' + gram + ') = ' + str(self.probability[gram]) + '\n')
+                key = '|'.join(reversed([char for char in gram]))
+                model.write('P(' + key + ') = ' + str(self.probability[gram]) + '\n')
+        with open('output/' + prefix + self.lang.upper() + '.pkl', 'wb+') as model:
+            pickle.dump(self.probability, model)
 
 

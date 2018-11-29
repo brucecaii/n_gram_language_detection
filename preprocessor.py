@@ -5,13 +5,14 @@ import re
 
 class Preprocessor:
 
-    def __init__(self):
+    def __init__(self, path='corpus/'):
         self.symbol = r'\,|\.|\!|\?|\$|\&|\/|\\|\-+|\@|\(|\)|\<|\>|\{|\}|\#|\*|\:|\;|\"|\”|\“|\s\'|\_|\[|\]'
+        self.path = path
 
     def run(self):
-        for file_name in os.listdir('corpus/'):
+        for file_name in os.listdir(self.path):
             processed_corpus = ''
-            with open('corpus/' + file_name, 'r+', encoding='utf-8', errors='ignore') as corpus:
+            with open(self.path + file_name, 'r+', encoding='utf-8', errors='ignore') as corpus:
                 for line in corpus.readlines():
                     # remove numbers
                     line = re.sub(r'\d+', '', line)
@@ -26,6 +27,9 @@ class Preprocessor:
                     # remove empty lines and numbers
                     if line == '':
                         continue
-                    processed_corpus += line + ' '
+                    if self.path == 'test/':
+                        processed_corpus += line + '\n'
+                    else:
+                        processed_corpus += line + ' '
             with open('temp/' + file_name, 'w+', encoding='utf-8') as corpus:
                 corpus.write(processed_corpus)
