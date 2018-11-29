@@ -12,6 +12,9 @@ class Train:
         self.frequency = dict()
         self.probability = dict()
         self.smooth = smooth
+        if n < 1 or n > 2:
+            print('Only support unigram or bigram.')
+            os._exit(1)
         preprocessor = Preprocessor()
         preprocessor.run()
 
@@ -32,7 +35,7 @@ class Train:
                 # for every term in the corpus
                 for term in corpus.read().split():
                     # for every character in the term
-                    if self.n > 1:
+                    if self.n == 2:
                         term = '#' + term + '#'
                     for i in range(len(term) - self.n + 1):
                         # create term and set frequency, or increase by 1 if it exists
@@ -50,15 +53,20 @@ class Train:
     def __dump_model__(self):
         if self.n == 1:
             prefix = 'unigram'
-        elif self.n == 2:
-            prefix = 'bigram'
         else:
-            prefix = self.n + 'gram'
+            prefix = 'bigram'
         with open('output/' + prefix + self.lang.upper() + '.txt', 'w+', encoding='utf-8', errors='ignore') as model:
             for gram in sorted(self.probability):
                 key = '|'.join(reversed([char for char in gram]))
                 model.write('P(' + key + ') = ' + str(self.probability[gram]) + '\n')
         with open('output/' + prefix + self.lang.upper() + '.pkl', 'wb+') as model:
-            pickle.dump(self.probability, model)
+            s = {
+                'probability': self.probability,
+                'size': sum(self.frequency.values()),
+                'lang': self.lang,
+                'n': self.n,
+                'type': prefix
+            }
+            pickle.dump(s, model)
 
 
