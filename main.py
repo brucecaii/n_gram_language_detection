@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from cli import Cli
 from train import Train
+from predict import Predict
 import os
 import shutil
 
@@ -18,4 +19,5 @@ if __name__ == '__main__':
         t = Train(int(args.model), args.lang)
         t.run()
     else:
-        pass
+        p = Predict(int(args.model))
+        p.run()

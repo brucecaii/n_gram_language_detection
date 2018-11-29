@@ -11,7 +11,6 @@ class Train:
         self.frequency = dict()
         self.probability = dict()
         self.smooth = smooth
-        print('Preprocessing the training data......')
         preprocessor = Preprocessor()
         preprocessor.run()
 
@@ -27,7 +26,6 @@ class Train:
             if file_name.split('-')[0] == self.lang:
                 data_file_list.append('temp/' + file_name)
         # create dictionary
-        print(data_file_list)
         for file_name in data_file_list:
             with open(file_name, 'r+', encoding='utf-8', errors='ignore') as corpus:
                 # for every term in the corpus
@@ -38,11 +36,11 @@ class Train:
                         self.frequency[term[i:(i + self.n)]] = self.frequency.get(term[i:(i + self.n)], 0) + 1
 
     def __calculate_gram_probability__(self):
-        # denominator = total number of the frequencies of all grams + size of gram vocabulary
-        denominator = sum(self.frequency.values()) + len(self.frequency)
+        # denominator = total number of the frequencies of all grams + size of gram vocabulary x smooth
+        denominator = float(sum(self.frequency.values())) + (float(len(self.frequency)) * float(self.smooth))
         for gram, frequency in self.frequency.items():
             # numerator = frequency of a gram + smoothing
-            numerator = frequency + self.smooth
+            numerator = float(frequency) + float(self.smooth)
             # calculate the probability and add it to the probability dict
             self.probability[gram] = float(numerator) / float(denominator)
 
