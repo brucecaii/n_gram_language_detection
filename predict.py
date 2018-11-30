@@ -7,7 +7,8 @@ import re
 
 language = {
     'EN': 'English',
-    'FR': 'French'
+    'FR': 'French',
+    'DE': 'German'
 }
 model_type = {
     1: 'unigram',

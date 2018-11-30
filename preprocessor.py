@@ -24,6 +24,7 @@ class Preprocessor:
                     line = re.sub(r'\s+', ' ', line).strip(' ')
                     # lowercase
                     line = line.lower()
+                    line = line.replace('\ufeff', '').replace('\xdf', '').replace('\xf6', '')
                     # remove empty lines and numbers
                     if line == '':
                         continue
