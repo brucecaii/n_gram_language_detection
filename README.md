@@ -12,6 +12,12 @@ To train unigram model with French corpus
 python -m main train -n 1 -l fr
 ```
 
+To train unigram model with German corpus
+
+```
+python -m main train -n 1 -l de
+```
+
 To train bigram model with English corpus
 
 ```
@@ -22,6 +28,12 @@ To train bigram model with French corpus
 
 ```
 python -m main train -n 2 -l fr
+```
+
+To train bigram model with German corpus
+
+```
+python -m main train -n 2 -l de
 ```
 
 To detect the language used as sentences with unigram
